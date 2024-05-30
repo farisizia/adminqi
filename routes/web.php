@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Login_Controller;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\Data_UserController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,8 +43,12 @@ Route::get('/user', function () {
 });
 
 Route::get('/admin', function () {
-    return view('components.pages.admin');
-});
+    $pengguna = Auth::user();
+
+    return view('components.pages.admin', [
+        'pengguna' => $pengguna
+    ]);
+})->name('admin');
 
 // Route::get('/', function () {
 //     return view('components.pages.login');
@@ -65,6 +71,12 @@ Route::group(['middleware' => ['admin.auth']], function () {
         Route::delete('/destroy/{id}', [PropertyController::class, 'deleted'])->name('property.deleted');
         Route::get('/images/{imageId}', [PropertyController::class, 'deleteImage'])->name('property.deleteImage');
 
+    });
+
+    Route::prefix('admin')->group(function () {
+        Route::name('admin.')->group(function () {
+            Route::put('update', [AdminController::class, 'update'])->name('update');
+        });
     });
 });
 
