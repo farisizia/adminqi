@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AutentikasiController;
 use App\Http\Controllers\DasborController;
+use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PropertiController;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/destroy/{id}', [PropertyController::class, 'deleted'])->name('property.deleted');
         Route::get('/images/{imageId}', [PropertyController::class, 'deleteImage'])->name('property.deleteImage');
 
+    });
+
+    Route::prefix('jadwal')->group(function () {
+        Route::get('/', [JadwalController::class, 'indeks'])->name('jadwal');
     });
 });
 
