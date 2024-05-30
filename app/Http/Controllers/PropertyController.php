@@ -62,11 +62,10 @@ class PropertyController extends Controller
         $data = $request->except('_token');
 
         $request->validate([
-            'image' => 'image|mimes:jpeg, jpg, png',
+            'image.*' => 'mimes:jpeg,jpg,png',
             'name' => 'required|string',
             'price' => 'required',
             'status' => 'required',
-            'address' => 'required',
             'description' => 'required',
             'sqft' => 'required|integer',
             'bath' => 'required|integer',
