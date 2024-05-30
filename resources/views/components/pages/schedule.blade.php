@@ -31,36 +31,26 @@
             <th>Action User</th>
           </tr>
           </thead>
-          <tbody>
-          <tr>
-            <td>P-01</td>
-            <td>Robert Pattinson</td>
-            <td>012789690</td>
-            <td>2024-04-25</td>
-            <td>10:00 </td>
-            <td>PIC </td>
-            <td>Note </td>
-            <td>Accept </td>
-            <td>
-            <button type="button" class="btn btn-detail" data-bs-toggle="modal" data-bs-target="#detailModal">Detail</button>
-            <a href="#" class="btn btn-delete"> Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td>P-02</td>
-            <td>Debi</td>
-            <td>012789690</td>
-            <td>2024-05-25</td>
-            <td>10:00 </td>
-            <td>PIC </td>
-            <td>Note </td>
-            <td>Accept </td>
-            <td>
-            <button type="button" class="btn btn-detail" data-bs-toggle="modal" data-bs-target="#detailModal">Detail</button>
-            <a href="#" class="btn btn-delete"> Delete</a>
-            </td>
-          </tr>
-          </tbody>
+          @if ($jadwal)
+        <tbody>
+        @foreach ($jadwal as $j)
+            <tr>
+                <td>{{ $j->properti->id }}</td>
+                <td>{{ $j->pengguna->name_user }}</td>
+                <td>{{ $j->pengguna->phone_user }}</td>
+                <td>{{ $j->tanggal }}</td>
+                <td>{{ $j->pukul }}</td>
+                <td>PIC</td>
+                <td>{{ $j->catatan }}</td>
+                <td>{{ $j->jadwal_diterima ? 'Accept' : 'Reject' }}</td>
+                <td>
+                    <button type="button" class="btn btn-detail" data-bs-toggle="modal" data-bs-target="#detailModal">Detail</button>
+                    <a href="#" class="btn btn-delete"> Delete</a>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+          @endif
         </table>
 
         <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
@@ -102,7 +92,6 @@
                 </div>
               </div>
             </div>
-        </div>  
+        </div>
 @endsection
 
-    
