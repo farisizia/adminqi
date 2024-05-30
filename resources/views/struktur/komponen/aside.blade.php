@@ -23,6 +23,14 @@
                         </a>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <div>
+                        <a class="nav-link" href="{{ route('properti') }}">
+                            <i class="fa-edit fas nav-icon"></i>
+                            <p>Manajemen Properti</p>
+                        </a>
+                    </div>
+                </li>
             </ul>
         </nav>
     </div>
