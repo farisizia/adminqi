@@ -45,7 +45,7 @@
                 <td>{{ $j->jadwal_diterima ? 'Accept' : 'Reject' }}</td>
                 <td>
                     <button type="button" class="btn btn-detail" data-bs-toggle="modal" data-bs-target="#detailModal">Detail</button>
-                    <a href="#" class="btn btn-delete"> Delete</a>
+                    <a href="{{ route('schedule.destroy', ['id' => $j->id_jadwal]) }}" class="btn btn-delete"> Delete</a>
                 </td>
             </tr>
         @endforeach

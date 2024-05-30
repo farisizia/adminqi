@@ -72,6 +72,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
     Route::prefix('schedule')->group(function () {
         Route::get('/', [ScheduleController::class, 'indeks'])->name('schedule');
+        Route::get('/destroy/{id}', [ScheduleController::class, 'hapus'])->whereNumber('id')->name('schedule.destroy');
     });
 
     Route::prefix('admin')->group(function () {
