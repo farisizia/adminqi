@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Login_Controller;
 use App\Http\Controllers\PropertyController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/homebjhgdcts',[DashboardController::class, 'index']) ->name('components.pages.home'); 
+Route::get('/homebjhgdcts',[DashboardController::class, 'index']) ->name('components.pages.home');
 
 Route::get('/master', function () {
     return view('components.template.master');
@@ -32,10 +33,6 @@ Route::get('/master', function () {
 
 Route::get('/property', function () {
     return view('components.pages.management');
-});
-
-Route::get('/schedule', function () {
-    return view('components.pages.schedule');
 });
 
 Route::get('/user', function () {
@@ -71,6 +68,10 @@ Route::group(['middleware' => ['admin.auth']], function () {
         Route::delete('/destroy/{id}', [PropertyController::class, 'deleted'])->name('property.deleted');
         Route::get('/images/{imageId}', [PropertyController::class, 'deleteImage'])->name('property.deleteImage');
 
+    });
+
+    Route::prefix('schedule')->group(function () {
+        Route::get('/', [ScheduleController::class, 'indeks'])->name('schedule');
     });
 
     Route::prefix('admin')->group(function () {
