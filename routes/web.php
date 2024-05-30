@@ -3,6 +3,7 @@
 use App\Http\Controllers\AutentikasiController;
 use App\Http\Controllers\DasborController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PropertiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\Data_UserController;
@@ -58,6 +59,10 @@ Route::prefix('autentikasi')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DasborController::class, 'indeks'])->name('dasbor');
+
+    Route::prefix('properti')->group(function () {
+        Route::get('/', [PropertiController::class, 'indeks'])->name('properti');
+    });
 
     Route::group(['prefix' => 'property'], function () {
         Route::get('/', [PropertyController::class, 'index'])->name('property.view');
