@@ -10,4 +10,6 @@ class Properti extends Model
     use HasFactory;
 
     protected $table = 'properti';
+
+    public $timestamps = false;
 }
