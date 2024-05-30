@@ -52,6 +52,7 @@ Route::prefix('autentikasi')->group(function () {
     Route::name('autentikasi.')->group(function () {
         Route::get('/masuk', [AutentikasiController::class, 'masuk'])->name('masuk');
         Route::post('/masuk', [AutentikasiController::class, 'prosesMasuk']);
+        Route::get('/keluar', [AutentikasiController::class, 'keluar'])->name('keluar');
     });
 });
 

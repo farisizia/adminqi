@@ -29,4 +29,14 @@ class AutentikasiController extends Controller
 
         return back();
     }
+
+    public function keluar(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return to_route('autentikasi.masuk');
+    }
 }

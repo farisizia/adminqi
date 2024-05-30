@@ -33,7 +33,7 @@
                     <i class="fa-cog fas"></i>
                     <span style="padding-left: 10px">Pengaturan</span>
                 </a>
-                <a class="dropdown-item nav-link text-black" href="#">
+                <a class="dropdown-item nav-link text-black" href="{{ route('autentikasi.keluar') }}">
                     <i class="fa-sign-out-alt fas"></i>
                     <span style="padding-left: 10px">Keluar</span>
                 </a>
