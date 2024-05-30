@@ -31,6 +31,14 @@
                         </a>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <div>
+                        <a class="nav-link" href="{{ route('jadwal') }}">
+                            <i class="fa-calendar-alt far nav-icon"></i>
+                            <p>Jadwal</p>
+                        </a>
+                    </div>
+                </li>
             </ul>
         </nav>
     </div>
