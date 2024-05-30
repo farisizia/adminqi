@@ -1,5 +1,9 @@
 @extends('struktur.dasar')
 @section('judul', 'Jadwal')
+@push('css')
+    <link href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/management.css') }}" rel="stylesheet">
+@endpush
 @section('konten')
     <div class="d-flex justify-content-end mb-3">
         <button
@@ -9,6 +13,41 @@
             type="button"
         >Tambah Jadwal</button>
     </div>
+    <table class="table table-bordered table-striped" id="tabel-jadwal">
+        <thead class="text-center">
+        <tr>
+            <th>ID Properti</th>
+            <th>Nama Pengguna</th>
+            <th>Telepon Pengguna</th>
+            <th>Tanggal Jadwal</th>
+            <th>Pukul Jadwal</th>
+            <th>PIC</th>
+            <th>Catatan</th>
+            <th>Status Jadwal</th>
+            <th>Aksi Pengguna</th>
+        </tr>
+        </thead>
+        @if ($jadwal)
+            <tbody>
+            @foreach ($jadwal as $j)
+                <tr>
+                    <td class="text-center">{{ $j->properti->id_properti }}</td>
+                    <td>Robert Pattinson</td>
+                    <td>012789690</td>
+                    <td class="text-center">{{ $j->tanggal }}</td>
+                    <td class="text-center">{{ $j->pukul }}</td>
+                    <td class="text-center">PIC</td>
+                    <td>{{ $j->catatan }}</td>
+                    <td class="text-center">{{ $j->jadwal_diterima ? 'Accept' : 'Decline' }}</td>
+                    <td class="text-center">
+                        <button class="btn btn-detail" type="button">Detail</button>
+                        <button class="btn btn-danger" type="button">Hapus</button>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        @endif
+    </table>
     {{-- modal --}}
     <div class="fade modal" id="modal-tambah-jadwal">
         <div class="modal-dialog modal-dialog-centered">
@@ -55,3 +94,12 @@
     </div>
     {{-- modal --}}
 @endsection
+@push('js')
+    <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+    <script>
+        $(function () {
+            $('#tabel-jadwal').DataTable();
+        });
+    </script>
+@endpush

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
+use App\Repositories\JadwalRepository;
 use App\Repositories\PropertiRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -12,18 +13,22 @@ use Illuminate\Http\Request;
 
 class JadwalController extends Controller
 {
+    private JadwalRepository $jadwalRepository;
     private PropertiRepository $propertiRepository;
 
-    public function __construct(PropertiRepository $propertiRepository)
+    public function __construct(JadwalRepository $jadwalRepository, PropertiRepository $propertiRepository)
     {
+        $this->jadwalRepository = $jadwalRepository;
         $this->propertiRepository = $propertiRepository;
     }
 
     public function indeks(): Factory|\Illuminate\Foundation\Application|View|Application
     {
+        $jadwal = $this->jadwalRepository->cariSemua();
         $properti = $this->propertiRepository->cariSemua();
 
         return view('tampilan.jadwal', [
+            'jadwal' => $jadwal,
             'properti' => $properti
         ]);
     }
