@@ -16,7 +16,8 @@
                             style="width: 100px"
                         >
                     </div>
-                    <form>
+                    <form method="post">
+                        @csrf
                         <div class="mb-3">
                             <label class="form-label" for="masukan-id">ID</label>
                             <input
@@ -32,6 +33,7 @@
                             <input
                                 class="form-control rounded-pill"
                                 id="masukan-nama-lengkap"
+                                name="nama-lengkap"
                                 type="text"
                                 value="{{ $pengguna->nama_lengkap }}"
                             >
@@ -48,7 +50,12 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="masukan-kata-sandi">Kata Sandi</label>
-                            <input class="form-control rounded-pill" id="masukan-kata-sandi" type="password">
+                            <input
+                                class="form-control rounded-pill"
+                                id="masukan-kata-sandi"
+                                name="kata-sandi"
+                                type="password"
+                            >
                         </div>
                         <button class="btn btn-block btn-primary rounded-pill" type="submit">Edit</button>
                     </form>

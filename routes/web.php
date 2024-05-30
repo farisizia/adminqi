@@ -79,6 +79,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('pengaturan')->group(function () {
         Route::get('/', [PengaturanController::class, 'indeks'])->name('pengaturan');
+        Route::post('/', [PengaturanController::class, 'prosesEdit']);
     });
 });
 

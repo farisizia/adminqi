@@ -10,4 +10,6 @@ class Pengguna extends User
     use HasFactory;
 
     protected $table = 'pengguna';
+
+    public $timestamps = false;
 }
