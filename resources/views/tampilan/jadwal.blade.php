@@ -28,21 +28,24 @@
                         </div>
                         <div class="mb-3">
                             <label for="pemilih-properti">Properti</label>
-                            <select class="form-control" id="pemilih-properti">
+                            <select class="form-control" id="pemilih-properti" name="properti">
                                 <option selected>Pilih properti</option>
+                                @foreach ($properti as $p)
+                                    <option value="{{ $p->id_properti }}">{{ $p->nama_properti }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="masukan-tanggal">Tanggal</label>
-                            <input class="form-control" id="masukan-tanggal" type="date">
+                            <input class="form-control" id="masukan-tanggal" name="tanggal" type="date">
                         </div>
                         <div class="mb-3">
                             <label for="masukan-pukul">Pukul</label>
-                            <input class="form-control" id="masukan-pukul" type="time">
+                            <input class="form-control" id="masukan-pukul" name="pukul" type="time">
                         </div>
                         <div class="mb-3">
                             <label for="masukan-catatan">Catatan</label>
-                            <input class="form-control" id="masukan-catatan" type="text">
+                            <input class="form-control" id="masukan-catatan" name="catatan" type="text">
                         </div>
                         <button class="btn btn-primary" type="submit">Simpan</button>
                     </form>
