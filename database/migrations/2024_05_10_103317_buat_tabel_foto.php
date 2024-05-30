@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Properti;
+
 return new class extends Migration
 {
     /**
@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('images', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Properti::class);
-            $table->string('image');
-            $table->timestamps();
+        Schema::create('foto', function (Blueprint $table) {
+            $table->increments('id_foto');
+            $table->unsignedInteger('id_properti');
+            $table->string('foto', 15);
+
+            $table->foreign('id_properti')->references('id_properti')->on('properti');
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('images');
+        //
     }
 };
