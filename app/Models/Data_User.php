@@ -9,4 +9,6 @@ class Data_User extends Model
 {
 
     use HasFactory;
+
+    protected $table = 'data_user';
 }

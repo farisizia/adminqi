@@ -17,6 +17,14 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('assets/css/schedule.css')}}" />
+    <div class="d-flex justify-content-end mb-3">
+        <button
+            class="btn btn-success"
+            data-bs-target="#modal-tambah-jadwal"
+            data-bs-toggle="modal"
+            type="button"
+        >Add Schedule</button>
+    </div>
 <table id="example1" class="table table-bordered table-striped">
           <thead>
           <tr>
@@ -31,37 +39,75 @@
             <th>Action User</th>
           </tr>
           </thead>
-          <tbody>
-          <tr>
-            <td>P-01</td>
-            <td>Robert Pattinson</td>
-            <td>012789690</td>
-            <td>2024-04-25</td>
-            <td>10:00 </td>
-            <td>PIC </td>
-            <td>Note </td>
-            <td>Accept </td>
-            <td>
-            <button type="button" class="btn btn-detail" data-bs-toggle="modal" data-bs-target="#detailModal">Detail</button>
-            <a href="#" class="btn btn-delete"> Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td>P-02</td>
-            <td>Debi</td>
-            <td>012789690</td>
-            <td>2024-05-25</td>
-            <td>10:00 </td>
-            <td>PIC </td>
-            <td>Note </td>
-            <td>Accept </td>
-            <td>
-            <button type="button" class="btn btn-detail" data-bs-toggle="modal" data-bs-target="#detailModal">Detail</button>
-            <a href="#" class="btn btn-delete"> Delete</a>
-            </td>
-          </tr>
-          </tbody>
+          @if ($jadwal)
+        <tbody>
+        @foreach ($jadwal as $j)
+            <tr>
+                <td>{{ $j->properti->id }}</td>
+                <td>{{ $j->pengguna->name_user }}</td>
+                <td>{{ $j->pengguna->phone_user }}</td>
+                <td>{{ $j->tanggal }}</td>
+                <td>{{ $j->pukul }}</td>
+                <td>PIC</td>
+                <td>{{ $j->catatan }}</td>
+                <td>{{ $j->jadwal_diterima ? 'Accept' : 'Reject' }}</td>
+                <td>
+                    <button type="button" class="btn btn-detail" data-bs-toggle="modal" data-bs-target="#detailModal">Detail</button>
+                    <a href="{{ route('schedule.destroy', ['id' => $j->id_jadwal]) }}" class="btn btn-delete"> Delete</a>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+          @endif
         </table>
+{{-- modal --}}
+<div class="fade modal" id="modal-tambah-jadwal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="fs-5 modal-title">Tambah Jadwal</h5>
+                <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('schedule.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="pemilih-pengguna">Pengguna</label>
+                        <select class="form-control" id="pemilih-pengguna" name="pengguna">
+                            <option selected>Pilih pengguna</option>
+                            @foreach ($pengguna as $p)
+                                <option value="{{ $p->id }}">{{ $p->name_user }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pemilih-properti">Properti</label>
+                        <select class="form-control" id="pemilih-properti" name="properti">
+                            <option selected>Pilih properti</option>
+                            @foreach ($properti as $p)
+                                <option value="{{ $p->id }}">{{ $p->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="masukan-tanggal">Tanggal</label>
+                        <input class="form-control" id="masukan-tanggal" name="tanggal" type="date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="masukan-pukul">Pukul</label>
+                        <input class="form-control" id="masukan-pukul" name="pukul" type="time">
+                    </div>
+                    <div class="mb-3">
+                        <label for="masukan-catatan">Catatan</label>
+                        <input class="form-control" id="masukan-catatan" name="catatan" type="text">
+                    </div>
+                    <button class="btn btn-primary" type="submit">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- modal --}}
 
         <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -102,7 +148,6 @@
                 </div>
               </div>
             </div>
-        </div>  
+        </div>
 @endsection
 
-    

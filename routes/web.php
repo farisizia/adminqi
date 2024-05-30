@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Login_Controller;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\Data_UserController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +21,7 @@ use App\Http\Controllers\DashboardController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/homebjhgdcts',[DashboardController::class, 'index']) ->name('components.pages.home'); 
+Route::get('/homebjhgdcts',[DashboardController::class, 'index']) ->name('components.pages.home');
 
 Route::get('/master', function () {
     return view('components.template.master');
@@ -32,17 +35,17 @@ Route::get('/property', function () {
     return view('components.pages.management');
 });
 
-Route::get('/schedule', function () {
-    return view('components.pages.schedule');
-});
-
 Route::get('/user', function () {
     return view('components.pages.data-user');
 });
 
 Route::get('/admin', function () {
-    return view('components.pages.admin');
-});
+    $pengguna = Auth::user();
+
+    return view('components.pages.admin', [
+        'pengguna' => $pengguna
+    ]);
+})->name('admin');
 
 // Route::get('/', function () {
 //     return view('components.pages.login');
@@ -65,6 +68,18 @@ Route::group(['middleware' => ['admin.auth']], function () {
         Route::delete('/destroy/{id}', [PropertyController::class, 'deleted'])->name('property.deleted');
         Route::get('/images/{imageId}', [PropertyController::class, 'deleteImage'])->name('property.deleteImage');
 
+    });
+
+    Route::prefix('schedule')->group(function () {
+        Route::get('/', [ScheduleController::class, 'indeks'])->name('schedule');
+        Route::post('/store', [ScheduleController::class, 'tambah'])->name('schedule.store');
+        Route::get('/destroy/{id}', [ScheduleController::class, 'hapus'])->whereNumber('id')->name('schedule.destroy');
+    });
+
+    Route::prefix('admin')->group(function () {
+        Route::name('admin.')->group(function () {
+            Route::put('update', [AdminController::class, 'update'])->name('update');
+        });
     });
 });
 
