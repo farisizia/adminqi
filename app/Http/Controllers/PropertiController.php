@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Foto;
 use App\Models\Properti;
 use App\Repositories\PropertiRepository;
 use Illuminate\Contracts\Foundation\Application;
@@ -9,10 +10,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
 class PropertiController extends Controller
@@ -80,6 +78,7 @@ class PropertiController extends Controller
             ]
         ]);
 
+        $foto = $request->file('foto');
         $namaProperti = $request->input('nama-properti');
         $harga = $request->input('harga');
         $status = $request->input('status');
@@ -90,6 +89,8 @@ class PropertiController extends Controller
         $jumlahKamarTidur = $request->input('kamar-tidur');
         $jumlahKamarMandi = $request->input('kamar-mandi');
         $jumlahLantai = $request->input('lantai');
+
+        DB::beginTransaction();
 
         $properti = new Properti();
 
@@ -105,6 +106,25 @@ class PropertiController extends Controller
         $properti->{'status'} = $status;
 
         $properti->save();
+
+        if ($request->has('foto')) {
+            foreach ($foto as $f) {
+                $namaFoto = sprintf('%s.%s', Str::random(10), $f->extension());
+
+                $f->storeAs('public/properti', $namaFoto);
+
+                $idProperti = $properti->{'id'};
+
+                $foto = new Foto();
+
+                $foto->{'id_properti'} = $idProperti;
+                $foto->{'foto'} = $namaFoto;
+
+                $foto->save();
+            }
+        }
+
+        DB::commit();
 
         return to_route('properti');
     }
