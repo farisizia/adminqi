@@ -12,6 +12,8 @@ class Jadwal extends Model
 
     protected $table = 'jadwal';
 
+    public $timestamps = false;
+
     public function pengguna(): BelongsTo
     {
         return $this->belongsTo(Data_User::class, 'id_pengguna');

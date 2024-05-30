@@ -69,27 +69,33 @@
                 <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
-                <form method="POST">
+                <form action="{{ route('schedule.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="pemilih-pengguna">Pengguna</label>
-                        <select class="form-control" id="pemilih-pengguna">
+                        <select class="form-control" id="pemilih-pengguna" name="pengguna">
                             <option selected>Pilih pengguna</option>
+                            @foreach ($pengguna as $p)
+                                <option value="{{ $p->id }}">{{ $p->name_user }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="pemilih-properti">Properti</label>
-                        <select class="form-control" id="pemilih-properti">
+                        <select class="form-control" id="pemilih-properti" name="properti">
                             <option selected>Pilih properti</option>
+                            @foreach ($properti as $p)
+                                <option value="{{ $p->id }}">{{ $p->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="masukan-tanggal">Tanggal</label>
-                        <input class="form-control" id="masukan-tanggal" type="date">
+                        <input class="form-control" id="masukan-tanggal" name="tanggal" type="date">
                     </div>
                     <div class="mb-3">
                         <label for="masukan-pukul">Pukul</label>
-                        <input class="form-control" id="masukan-pukul" type="time">
+                        <input class="form-control" id="masukan-pukul" name="pukul" type="time">
                     </div>
                     <div class="mb-3">
                         <label for="masukan-catatan">Catatan</label>
