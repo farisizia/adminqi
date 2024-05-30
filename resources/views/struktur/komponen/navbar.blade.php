@@ -29,6 +29,10 @@
                 </button>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <a class="dropdown-item nav-link text-black" href="{{ route('pengaturan') }}">
+                    <i class="fa-cog fas"></i>
+                    <span style="padding-left: 10px">Pengaturan</span>
+                </a>
                 <a class="dropdown-item nav-link text-black" href="#">
                     <i class="fa-sign-out-alt fas"></i>
                     <span style="padding-left: 10px">Keluar</span>
