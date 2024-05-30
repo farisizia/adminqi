@@ -19,4 +19,5 @@
     {{-- css --}}
 </head>
 @includeWhen(url()->current() === route('autentikasi.masuk'), 'struktur.tata-letak.autentikasi')
+@includeUnless(url()->current() === route('autentikasi.masuk'), 'struktur.tata-letak.utama')
 </html>

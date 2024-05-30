@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AutentikasiController;
+use App\Http\Controllers\DasborController;
 use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PropertyController;
@@ -51,12 +52,12 @@ Route::get('/admin', function () {
 Route::prefix('autentikasi')->group(function () {
     Route::name('autentikasi.')->group(function () {
         Route::get('/masuk', [AutentikasiController::class, 'masuk'])->name('masuk');
+        Route::post('/masuk', [AutentikasiController::class, 'prosesMasuk']);
     });
 });
 
-Route::group(['middleware' => ['admin.auth']], function () {
-    Route::view('/home', 'components.pages.home')->name('admin.dashboard');
-    // Route::get('data-user', [Data_UserController::class, 'index'])->name('property.data-user');
+Route::middleware('auth')->group(function () {
+    Route::get('/', [DasborController::class, 'indeks'])->name('dasbor');
 
     Route::group(['prefix' => 'property'], function () {
         Route::get('/', [PropertyController::class, 'index'])->name('property.view');
