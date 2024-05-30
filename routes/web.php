@@ -4,6 +4,7 @@ use App\Http\Controllers\AutentikasiController;
 use App\Http\Controllers\DasborController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PropertiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PropertyController;
@@ -42,10 +43,6 @@ Route::get('/user', function () {
     return view('components.pages.data-user');
 });
 
-Route::get('/admin', function () {
-    return view('components.pages.admin');
-});
-
 // Route::get('/', function () {
 //     return view('components.pages.login');
 // });
@@ -78,6 +75,10 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('jadwal')->group(function () {
         Route::get('/', [JadwalController::class, 'indeks'])->name('jadwal');
+    });
+
+    Route::prefix('pengaturan')->group(function () {
+        Route::get('/', [PengaturanController::class, 'indeks'])->name('pengaturan');
     });
 });
 
