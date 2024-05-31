@@ -48,6 +48,19 @@ class ScheduleController extends Controller
         return to_route('schedule');
     }
 
+    public function update(int $id, Request $request)
+    {
+        $jadwal = Jadwal::query()->where('id_jadwal', '=', $id);
+
+        if ($jadwal) {
+            $jadwal->update([
+                'jadwal_diterima' => true
+            ]);
+        }
+
+        return to_route('schedule');
+    }
+
     public function hapus(int $id): RedirectResponse
     {
         $jadwal = Jadwal::query()->where('id_jadwal', '=', $id);

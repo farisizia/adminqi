@@ -182,7 +182,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <form method="post">
+                        <form action="{{ route('schedule.update', ['id' => $j->id_jadwal]) }}" method="post">
                             @csrf
                             @method('put')
                             <input name="id-jadwal" type="hidden" value="{{ $j->id_jadwal }}">
