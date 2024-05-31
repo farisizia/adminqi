@@ -51,4 +51,17 @@ class JadwalController extends Controller
 
         return to_route('jadwal');
     }
+
+    public function hapus(int $idJadwal)
+    {
+        $jadwal = $this->jadwalRepository->cariSatuBerdasarkanIDJadwal($idJadwal);
+
+        if ($jadwal) {
+            $this->jadwalRepository->hapus($idJadwal);
+
+            return to_route('jadwal');
+        }
+
+        abort(404);
+    }
 }

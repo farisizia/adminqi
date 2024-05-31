@@ -41,7 +41,10 @@
                     <td class="text-center">{{ $j->jadwal_diterima ? 'Accept' : 'Decline' }}</td>
                     <td class="text-center">
                         <button class="btn btn-detail" type="button">Detail</button>
-                        <button class="btn btn-danger" type="button">Hapus</button>
+                        <a
+                            class="btn btn-danger"
+                            href="{{ route('jadwal.hapus', ['id_jadwal' => $j->id_jadwal]) }}"
+                        >Hapus</a>
                     </td>
                 </tr>
             @endforeach

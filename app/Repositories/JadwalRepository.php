@@ -13,4 +13,18 @@ class JadwalRepository
 
         return $jadwal->get();
     }
+
+    public function cariSatuBerdasarkanIDJadwal(int $idJadwal): object|null
+    {
+        $jadwal = Jadwal::query()->where('id_jadwal', '=', $idJadwal);
+
+        return $jadwal->first();
+    }
+
+    public function hapus(int $idJadwal): void
+    {
+        $jadwal = Jadwal::query()->where('id_jadwal', '=', $idJadwal);
+
+        $jadwal->delete();
+    }
 }
