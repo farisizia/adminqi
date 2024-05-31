@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -20,6 +21,26 @@ class PropertiController extends Controller
     public function __construct(PropertiRepository $propertiRepository)
     {
         $this->propertiRepository = $propertiRepository;
+    }
+
+    private function simpanFoto(Request $request, array|UploadedFile|null $foto, object $properti): void
+    {
+        if ($request->has('foto')) {
+            foreach ($foto as $f) {
+                $namaFoto = sprintf('%s.%s', Str::random(10), $f->extension());
+
+                $f->storeAs('public/properti', $namaFoto);
+
+                $idProperti = $properti->{'id'};
+
+                $foto = new Foto();
+
+                $foto->{'id_properti'} = $idProperti;
+                $foto->{'foto'} = $namaFoto;
+
+                $foto->save();
+            }
+        }
     }
 
     public function indeks(): Factory|\Illuminate\Foundation\Application|View|Application
@@ -107,24 +128,48 @@ class PropertiController extends Controller
 
         $properti->save();
 
-        if ($request->has('foto')) {
-            foreach ($foto as $f) {
-                $namaFoto = sprintf('%s.%s', Str::random(10), $f->extension());
-
-                $f->storeAs('public/properti', $namaFoto);
-
-                $idProperti = $properti->{'id'};
-
-                $foto = new Foto();
-
-                $foto->{'id_properti'} = $idProperti;
-                $foto->{'foto'} = $namaFoto;
-
-                $foto->save();
-            }
-        }
+        $this->simpanFoto($request, $foto, $properti);
 
         DB::commit();
+
+        return to_route('properti');
+    }
+
+    public function prosesEdit(Request $request): RedirectResponse
+    {
+        $idProperti = $request->input('id-properti');
+        $foto = $request->file('foto');
+        $namaProperti = $request->input('nama-properti');
+        $harga = $request->input('harga');
+        $status = $request->input('status');
+        $alamat = $request->input('alamat');
+        $deskripsi = $request->input('deskripsi');
+        $luas = $request->input('luas');
+        $jumlahGarasi = $request->input('garasi');
+        $jumlahKamarTidur = $request->input('kamar-tidur');
+        $jumlahKamarMandi = $request->input('kamar-mandi');
+        $jumlahLantai = $request->input('lantai');
+
+        $properti = $this->propertiRepository->cariSatuBerdasarkanIDProperti($idProperti);
+
+        if ($properti) {
+            $nilai = [
+                'nama_properti' => $namaProperti,
+                'harga' => $harga,
+                'alamat' => $alamat,
+                'deskripsi' => $deskripsi,
+                'luas' => $luas,
+                'jumlah_garasi' => $jumlahGarasi,
+                'jumlah_lantai' => $jumlahLantai,
+                'jumlah_kamar_mandi' => $jumlahKamarMandi,
+                'jumlah_kamar_tidur' => $jumlahKamarTidur,
+                'status' => $status
+            ];
+
+            $this->simpanFoto($request, $foto, $properti);
+
+            $this->propertiRepository->edit($idProperti, $nilai);
+        }
 
         return to_route('properti');
     }

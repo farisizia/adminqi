@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('properti')->group(function () {
         Route::get('/', [PropertiController::class, 'indeks'])->name('properti');
         Route::post('/', [PropertiController::class, 'prosesTambah']);
+        Route::put('/', [PropertiController::class, 'prosesEdit']);
     });
 
     Route::group(['prefix' => 'property'], function () {

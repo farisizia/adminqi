@@ -36,7 +36,12 @@
                     <td class="text-right">{{ $p->harga }}</td>
                     <td class="text-center">{{ $p->status }}</td>
                     <td class="text-center">
-                        <button class="btn btn-detail" type="button">Edit</button>
+                        <button
+                            class="btn btn-detail"
+                            data-target="#modal-edit-properti-{{ $loop->iteration }}"
+                            data-toggle="modal"
+                            type="button"
+                        >Edit</button>
                         <button class="btn btn-danger" type="button">Hapus</button>
                     </td>
                 </tr>
@@ -138,6 +143,144 @@
             </div>
         </div>
     </div>
+    {{-- modal --}}
+    {{-- modal --}}
+    @foreach ($properti as $p)
+        <div class="fade modal" id="modal-edit-properti-{{ $loop->iteration }}">
+            <div class="modal-dialog" style="top: 0">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="fs-5 modal-title">Properti</h5>
+                        <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form enctype="multipart/form-data" method="post">
+                            @csrf
+                            @method('put')
+                            <input name="id-properti" type="hidden" value="{{ $p->id_properti }}">
+                            <div class="mb-3">
+                                <label class="form-label" for="masukan-foto">Unggah Foto</label>
+                                <input
+                                    accept="image/*"
+                                    class="form-control"
+                                    id="masukan-foto"
+                                    multiple
+                                    name="foto[]"
+                                    type="file"
+                                >
+                                <small class="form-text text-muted">Tidak ada berkas yang dipilih</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="masukan-foto">Nama Properti</label>
+                                <input
+                                    class="form-control"
+                                    name="nama-properti"
+                                    type="text"
+                                    value="{{ $p->nama_properti }}"
+                                >
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="masukan-harga">Harga</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp</span>
+                                    </div>
+                                    <input
+                                        class="form-control"
+                                        id="masukan-harga"
+                                        name="harga"
+                                        type="text"
+                                        value="{{ $p->harga }}"
+                                    >
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="pemilih-status">Status</label>
+                                <select class="form-control" id="pemilih-status" name="status">
+                                    <option @selected($p->status === 'Siap')>Siap</option>
+                                    <option @selected($p->status === 'Tertunda')>Tertunda</option>
+                                    <option @selected($p->status === 'Terjual')>Terjual</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="area-teks-status">Alamat</label>
+                                <textarea
+                                    class="form-control"
+                                    id="area-teks-status"
+                                    name="alamat"
+                                >{{ $p->alamat }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="area-teks-deskripsi">Deskripsi</label>
+                                <textarea
+                                    class="form-control"
+                                    id="area-teks-deskripsi"
+                                    name="deskripsi"
+                                >{{ $p->deskripsi }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="mb-3 row">
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="masukan-luas">Luas</label>
+                                        <input
+                                            class="form-control"
+                                            id="masukan-luas"
+                                            name="luas"
+                                            type="number"
+                                            value="{{ $p->luas }}"
+                                        >
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="masukan-garasi">Garasi</label>
+                                        <input
+                                            class="form-control"
+                                            id="masukan-garasi"
+                                            name="garasi"
+                                            type="number"
+                                            value="{{ $p->jumlah_garasi }}"
+                                        >
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="masukan-kamar-tidur">Kamar Tidur</label>
+                                        <input
+                                            class="form-control"
+                                            id="masukan-kamar-tidur"
+                                            name="kamar-tidur"
+                                            type="number"
+                                            value="{{ $p->jumlah_kamar_tidur }}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="masukan-kamar-mandi">Kamar Mandi</label>
+                                        <input
+                                            class="form-control"
+                                            id="masukan-kamar-mandi"
+                                            name="kamar-mandi"
+                                            type="number"
+                                            value="{{ $p->jumlah_kamar_mandi }}"
+                                        >
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="masukan-lantai">Lantai</label>
+                                        <input
+                                            class="form-control"
+                                            id="masukan-lantai"
+                                            name="lantai"
+                                            type="number"
+                                            value="{{ $p->jumlah_lantai }}"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Simpan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
     {{-- modal --}}
 @endsection
 @push('js')
