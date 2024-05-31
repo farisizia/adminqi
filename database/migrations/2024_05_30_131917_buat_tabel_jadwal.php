@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_properti');
             $table->date('tanggal');
             $table->time('pukul');
-            $table->string('pic');
-            $table->tinyText('catatan');
+            $table->string('pic')->nullable();
+            $table->tinyText('catatan')->nullable();
             $table->boolean('jadwal_diterima')->default(false);
 
             $table->foreign('id_pengguna')->references('id')->on('data_user');
