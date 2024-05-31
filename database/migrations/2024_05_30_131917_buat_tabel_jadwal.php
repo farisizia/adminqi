@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_properti');
             $table->date('tanggal');
             $table->time('pukul');
+            $table->string('pic');
             $table->tinyText('catatan');
             $table->boolean('jadwal_diterima')->default(false);
 
