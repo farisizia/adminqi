@@ -9,26 +9,35 @@
     @stack('styles')
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Month', 'Sales'],
-          ['January',   10],
-          ['February',  50],
-          ['March',     30],
-          ['April',     70]
-        ]);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Month', 'Sales'],
+                ['January', 10],
+                ['February', 50],
+                ['March', 30],
+                ['April', 70]
+            ]);
 
-        var options = {
-          hAxis: {title: 'Months',  titleTextStyle: {color: '#333'}},
-          vAxis: {minValue: 0}
-        };
+            var options = {
+                hAxis: {
+                    title: 'Months',
+                    titleTextStyle: {
+                        color: '#333'
+                    }
+                },
+                vAxis: {
+                    minValue: 0
+                }
+            };
 
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
+            var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
     </script>
 </head>
 
@@ -56,7 +65,7 @@
             <div class="col-lg-4 col-6">
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>100</h3>
+                        <h3>{{ $jumlah_properti_terjual }}</h3>
 
                         <p>Total Properti Terjual</p>
                     </div>
@@ -69,7 +78,7 @@
             <div class="col-lg-4 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>50</h3>
+                        <h3>{{ $jumlah_properti_tersedia }}</h3>
                         <p>Total Properti Tersedia</p>
                     </div>
                     <div class="icon">
@@ -81,7 +90,7 @@
             <div class="col-lg-4 col-6">
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3 style="color:white;">150</h3>
+                        <h3 style="color:white;">{{ $property }}</h3>
                         <p style="color:white;">Total Properti</p>
                     </div>
                     <div class="icon">
@@ -101,7 +110,7 @@
 
             </div>
             <div class="card-body">
-            <div id="chart_div" style="width: 100%; height: 500px;"></div>
+                <div id="chart_div" style="width: 100%; height: 500px;"></div>
             </div>
         </div>
     </main>

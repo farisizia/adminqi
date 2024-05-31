@@ -57,7 +57,7 @@ Route::get('/', [Login_Controller::class, 'index'])->name('admin.login');
 Route::post('/', [Login_Controller::class, 'authenticate'])->name('admin.login.auth');
 
 Route::group(['middleware' => ['admin.auth']], function () {
-    Route::view('/home', 'components.pages.home')->name('admin.dashboard');
+    Route::get('/home', [DashboardController::class, 'index'])->name('admin.dashboard');
     // Route::get('data-user', [Data_UserController::class, 'index'])->name('property.data-user');
 
     Route::group(['prefix' => 'property'], function () {
