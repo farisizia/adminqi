@@ -154,7 +154,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="fs-5 modal-title">Jadwal</h5>
+                        <h5 class="fs-5 modal-title">Schedule</h5>
                         <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
@@ -180,25 +180,39 @@
                                     <td>:</td>
                                     <td>{{ $j->pukul }}</td>
                                 </tr>
+                                @if ($j->jadwal_diterima)
+                                    <tr>
+                                        <td class="font-weight-bold">PIC</td>
+                                        <td>:</td>
+                                        <td>{{ $j->pic }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Note</td>
+                                        <td>:</td>
+                                        <td>{{ $j->catatan }}</td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
-                        <form action="{{ route('schedule.update', ['id' => $j->id_jadwal]) }}" method="post">
-                            @csrf
-                            @method('put')
-                            <input name="id-jadwal" type="hidden" value="{{ $j->id_jadwal }}">
-                            <div class="mb-3">
-                                <label class="form-label" for="masukan-pic">PIC</label>
-                                <input class="form-control" id="masukan-pic" type="text">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="area-teks-catatan">Note</label>
-                                <textarea class="form-control" id="area-teks-catatan" rows="5"></textarea>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <button class="btn btn-success mr-1" type="submit">Accept</button>
-                                <button class="btn btn-danger" type="button">Decline</button>
-                            </div>
-                        </form>
+                        @if (!$j->jadwal_diterima)
+                            <form action="{{ route('schedule.update', ['id' => $j->id_jadwal]) }}" method="post">
+                                @csrf
+                                @method('put')
+                                <input name="id-jadwal" type="hidden" value="{{ $j->id_jadwal }}">
+                                <div class="mb-3">
+                                    <label class="form-label" for="masukan-pic">PIC</label>
+                                    <input class="form-control" id="masukan-pic" name="pic" type="text">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="area-teks-catatan">Note</label>
+                                    <textarea class="form-control" id="area-teks-catatan" name="catatan" rows="5"></textarea>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-success mr-1" type="submit">Accept</button>
+                                    <button class="btn btn-danger" type="button">Decline</button>
+                                </div>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>
