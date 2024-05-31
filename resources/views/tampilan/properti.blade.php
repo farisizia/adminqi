@@ -3,6 +3,7 @@
 @push('css')
     <link href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/management.css') }}" rel="stylesheet">
+    <link href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet">
 @endpush
 @section('konten')
     <div class="d-flex justify-content-end mb-3">
@@ -61,7 +62,7 @@
                     <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
-                    <form enctype="multipart/form-data" method="post">
+                    <form enctype="multipart/form-data" id="formulir-tambah-properti" method="post">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label" for="masukan-foto">Unggah Foto</label>
@@ -139,6 +140,9 @@
                                     <input class="form-control" id="masukan-lantai" name="lantai" type="number">
                                 </div>
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <div id="peta-tambah-properti"></div>
                         </div>
                         <button class="btn btn-primary" type="submit">Simpan</button>
                     </form>
@@ -289,9 +293,74 @@
 @push('js')
     <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet-src.js"></script>
     <script>
         $(function () {
             $('#tabel-properti').DataTable();
+        });
+
+        let koordinat = [-7.2458, 112.7378]; // koordinat kota surabaya
+
+        $('#modal-tambah-properti').on('shown.bs.modal', function () {
+            const peta = L.map('peta-tambah-properti', {
+                center: koordinat,
+                doubleClickZoom: false,
+                zoom: 13
+            });
+
+            let penanda = L.marker(koordinat).addTo(peta);
+
+            peta.on('mouseover', function () {
+                peta._container.style.cursor = 'default';
+            });
+
+            peta.on('dblclick', function (e) {
+                if (penanda) {
+                    peta.removeLayer(penanda); // hilangkan penanda sebelumnya
+                }
+
+                koordinat = e['latlng'];
+
+                const koordinatY = koordinat['lat'];
+                const koordinatX = koordinat['lng'];
+
+                koordinat = [koordinatY, koordinatX];
+
+                penanda = L.marker(koordinat).addTo(peta);
+            });
+
+            peta.on('movestart', function () {
+                peta._container.style.cursor = 'grabbing';
+            });
+
+            peta.on('moveend', function () {
+                peta._container.style.cursor = 'default';
+            });
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                maxZoom: 19
+            }).addTo(peta);
+        });
+
+        $('#formulir-tambah-properti').on('submit', function (event) {
+            event.preventDefault();
+
+            const ini = $(this)[0];
+
+            const dataFormulir = new FormData(ini);
+
+            dataFormulir.append('koordinat-x', koordinat[0]);
+            dataFormulir.append('koordinat-y', koordinat[1]);
+
+            $.ajax('/properti', {
+                contentType: false,
+                data: dataFormulir,
+                method: 'POST',
+                processData: false
+            }).done(function () {
+                window.location.reload();
+            });
         });
     </script>
 @endpush

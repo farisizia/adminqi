@@ -9,12 +9,14 @@ use App\Repositories\PropertiRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use MatanYadaev\EloquentSpatial\Objects\Point;
 
 class PropertiController extends Controller
 {
@@ -56,7 +58,7 @@ class PropertiController extends Controller
         ]);
     }
 
-    public function prosesTambah(Request $request): RedirectResponse
+    public function prosesTambah(Request $request): JsonResponse
     {
         $request->validate([
             'nama-properti' => [
@@ -114,6 +116,8 @@ class PropertiController extends Controller
         $jumlahKamarTidur = $request->input('kamar-tidur');
         $jumlahKamarMandi = $request->input('kamar-mandi');
         $jumlahLantai = $request->input('lantai');
+        $koordinatX = $request->input('koordinat-x');
+        $koordinatY = $request->input('koordinat-y');
 
         DB::beginTransaction();
 
@@ -129,6 +133,7 @@ class PropertiController extends Controller
         $properti->{'jumlah_kamar_mandi'} = $jumlahKamarMandi;
         $properti->{'jumlah_kamar_tidur'} = $jumlahKamarTidur;
         $properti->{'status'} = $status;
+        $properti->{'koordinat'} = new Point($koordinatX, $koordinatY);
 
         $properti->save();
 
@@ -136,7 +141,9 @@ class PropertiController extends Controller
 
         DB::commit();
 
-        return to_route('properti');
+        return response()->json([
+            'berhasil' => true
+        ]);
     }
 
     public function prosesEdit(Request $request): RedirectResponse
