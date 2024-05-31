@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->unsignedTinyInteger('jumlah_kamar_mandi');
             $table->unsignedTinyInteger('jumlah_kamar_tidur');
             $table->enum('status', ['Siap', 'Tertunda', 'Terjual']);
+            $table->geography('koordinat', subtype: 'point');
         });
     }
 
