@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [PropertiController::class, 'indeks'])->name('properti');
         Route::post('/', [PropertiController::class, 'prosesTambah']);
         Route::put('/', [PropertiController::class, 'prosesEdit']);
+        Route::get('/hapus/{id_properti}', [PropertiController::class, 'hapus'])->whereNumber('id_properti')->name('properti.hapus');
     });
 
     Route::group(['prefix' => 'property'], function () {

@@ -42,7 +42,10 @@
                             data-toggle="modal"
                             type="button"
                         >Edit</button>
-                        <button class="btn btn-danger" type="button">Hapus</button>
+                        <a
+                            class="btn btn-danger"
+                            href="{{ route('properti.hapus', ['id_properti' => $p->id_properti]) }}"
+                        >Hapus</a>
                     </td>
                 </tr>
             @endforeach

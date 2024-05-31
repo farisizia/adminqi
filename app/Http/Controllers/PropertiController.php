@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Foto;
 use App\Models\Properti;
+use App\Repositories\FotoRepository;
 use App\Repositories\PropertiRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -12,14 +13,17 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PropertiController extends Controller
 {
+    private FotoRepository $fotoRepository;
     private PropertiRepository $propertiRepository;
 
-    public function __construct(PropertiRepository $propertiRepository)
+    public function __construct(FotoRepository $fotoRepository, PropertiRepository $propertiRepository)
     {
+        $this->fotoRepository = $fotoRepository;
         $this->propertiRepository = $propertiRepository;
     }
 
@@ -172,5 +176,28 @@ class PropertiController extends Controller
         }
 
         return to_route('properti');
+    }
+
+    public function hapus(int $idProperti)
+    {
+        $properti = $this->propertiRepository->cariSatuBerdasarkanIDProperti($idProperti);
+
+        if ($properti) {
+            $foto = $properti->foto;
+
+            if ($foto) {
+                foreach ($foto as $f) {
+                    Storage::disk('public')->delete(sprintf('properti/%s', $f->foto));
+
+                    $this->fotoRepository->hapus($idProperti);
+                }
+            }
+
+            $this->propertiRepository->hapus($idProperti);
+
+            return to_route('properti');
+        }
+
+        abort(404);
     }
 }

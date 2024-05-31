@@ -27,4 +27,11 @@ class PropertiRepository
 
         $properti->update($nilai);
     }
+
+    public function hapus(int $idProperti): void
+    {
+        $properti = Properti::query()->where('id_properti', '=', $idProperti);
+
+        $properti->delete();
+    }
 }
