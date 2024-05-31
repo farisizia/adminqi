@@ -48,8 +48,9 @@
                         <td>{{ $j->catatan }}</td>
                         <td>{{ $j->jadwal_diterima ? 'Accept' : 'Reject' }}</td>
                         <td>
-                            <button type="button" class="btn btn-detail" data-bs-toggle="modal"
-                                data-bs-target="#detailModal">Detail</button>
+                            <button type="button" class="btn btn-detail"
+                                data-target="#modal-lihat-detail-jadwal-{{ $loop->iteration }}"
+                                data-toggle="modal">Detail</button>
                             <a href="{{ route('schedule.destroy', ['id' => $j->id_jadwal]) }}" class="btn btn-delete">
                                 Delete</a>
                         </td>
@@ -147,4 +148,61 @@
             </div>
         </div>
     </div>
+    {{-- modal --}}
+    @foreach ($jadwal as $j)
+        <div class="fade modal" id="modal-lihat-detail-jadwal-{{ $loop->iteration }}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="fs-5 modal-title">Jadwal</h5>
+                        <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td class="font-weight-bold">Name</td>
+                                    <td>:</td>
+                                    <td>{{ $j->pengguna->name_user }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Phone User</td>
+                                    <td>:</td>
+                                    <td>{{ $j->pengguna->phone_user }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Schedule Property</td>
+                                    <td>:</td>
+                                    <td>{{ $j->tanggal }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Time Property</td>
+                                    <td>:</td>
+                                    <td>{{ $j->pukul }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <form method="post">
+                            @csrf
+                            @method('put')
+                            <input name="id-jadwal" type="hidden" value="{{ $j->id_jadwal }}">
+                            <div class="mb-3">
+                                <label class="form-label" for="masukan-pic">PIC</label>
+                                <input class="form-control" id="masukan-pic" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="area-teks-catatan">Note</label>
+                                <textarea class="form-control" id="area-teks-catatan" rows="5"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-success mr-1" type="submit">Accept</button>
+                                <button class="btn btn-danger" type="button">Decline</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    {{-- modal --}}
 @endsection
