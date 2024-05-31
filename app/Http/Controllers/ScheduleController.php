@@ -54,6 +54,8 @@ class ScheduleController extends Controller
 
         if ($jadwal) {
             $jadwal->update([
+                'pic' => $request->input('pic'),
+                'catatan' => $request->input('catatan'),
                 'jadwal_diterima' => true
             ]);
         }
