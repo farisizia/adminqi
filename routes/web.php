@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('jadwal')->group(function () {
         Route::get('/', [JadwalController::class, 'indeks'])->name('jadwal');
         Route::post('/', [JadwalController::class, 'prosesTambah']);
+        Route::put('/', [JadwalController::class, 'prosesEdit']);
         Route::get('/hapus/{id_jadwal}', [JadwalController::class, 'hapus'])->whereNumber('id_jadwal')->name('jadwal.hapus');
     });
 

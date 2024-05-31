@@ -27,4 +27,11 @@ class JadwalRepository
 
         $jadwal->delete();
     }
+
+    public function edit(int $idJadwal, array $nilai): void
+    {
+        $jadwal = Jadwal::query()->where('id_jadwal', '=', $idJadwal);
+
+        $jadwal->update($nilai);
+    }
 }

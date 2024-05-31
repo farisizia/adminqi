@@ -52,6 +52,21 @@ class JadwalController extends Controller
         return to_route('jadwal');
     }
 
+    public function prosesEdit(Request $request): RedirectResponse
+    {
+        $idJadwal = $request->input('id-jadwal');
+
+        $jadwal = $this->jadwalRepository->cariSatuBerdasarkanIDJadwal($idJadwal);
+
+        if ($jadwal) {
+            $this->jadwalRepository->edit($idJadwal, [
+                'diterima' => true
+            ]);
+        }
+
+        return to_route('jadwal');
+    }
+
     public function hapus(int $idJadwal)
     {
         $jadwal = $this->jadwalRepository->cariSatuBerdasarkanIDJadwal($idJadwal);

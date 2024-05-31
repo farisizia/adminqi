@@ -16,6 +16,7 @@
     <table class="table table-bordered table-striped" id="tabel-jadwal">
         <thead class="text-center">
         <tr>
+            <th>ID Jadwal</th>
             <th>ID Properti</th>
             <th>Nama Pengguna</th>
             <th>Telepon Pengguna</th>
@@ -31,6 +32,7 @@
             <tbody>
             @foreach ($jadwal as $j)
                 <tr>
+                    <td class="text-center">{{ $j->id_jadwal }}</td>
                     <td class="text-center">{{ $j->properti->id_properti }}</td>
                     <td>Robert Pattinson</td>
                     <td>012789690</td>
@@ -40,7 +42,11 @@
                     <td>{{ $j->catatan }}</td>
                     <td class="text-center">{{ $j->jadwal_diterima ? 'Accept' : 'Decline' }}</td>
                     <td class="text-center">
-                        <button class="btn btn-detail" type="button">Detail</button>
+                        <button
+                            class="btn btn-detail tombol-detail"
+                            data-target="#modal-lihat-detail-jadwal-{{ $loop->iteration }}"
+                            data-toggle="modal"
+                            type="button">Detail</button>
                         <a
                             class="btn btn-danger"
                             href="{{ route('jadwal.hapus', ['id_jadwal' => $j->id_jadwal]) }}"
@@ -95,6 +101,63 @@
             </div>
         </div>
     </div>
+    {{-- modal --}}
+    {{-- modal --}}
+    @foreach ($jadwal as $j)
+        <div class="fade modal" id="modal-lihat-detail-jadwal-{{ $loop->iteration }}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="fs-5 modal-title">Jadwal</h5>
+                        <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-borderless">
+                            <tbody>
+                            <tr>
+                                <td class="font-weight-bold">Nama</td>
+                                <td>:</td>
+                                <td>Robert Pattinson</td>
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold">Nomor Telepon</td>
+                                <td>:</td>
+                                <td>012789690</td>
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold">Tanggal Jadwal</td>
+                                <td>:</td>
+                                <td>{{ $j->tanggal }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold">Pukul Jadwal</td>
+                                <td>:</td>
+                                <td>{{ $j->pukul }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <form method="post">
+                            @csrf
+                            @method('put')
+                            <input name="id-jadwal" type="hidden" value="{{ $j->id_jadwal }}">
+                            <div class="mb-3">
+                                <label class="form-label" for="masukan-pic">PIC</label>
+                                <input class="form-control" id="masukan-pic" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="area-teks-catatan">Catatan</label>
+                                <textarea class="form-control" id="area-teks-catatan" rows="5"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-success mr-1" type="submit">Terima</button>
+                                <button class="btn btn-danger" type="button">Tolak</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
     {{-- modal --}}
 @endsection
 @push('js')

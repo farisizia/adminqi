@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->time('pukul');
             $table->tinyText('catatan')->nullable();
+            $table->boolean('diterima')->default(false);
 
             $table->foreign('id_properti')->references('id_properti')->on('properti')->cascadeOnDelete();
         });
